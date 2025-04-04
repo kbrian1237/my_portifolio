@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shape Math Puzzle</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .equation {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .shape {
+            width: 40px;
+            height: 40px;
+            margin: 0 5px;
+            display: inline-block;
+        }
+
+        .circle {
+            border-radius: 50%;
+            background-color: #a0522d; /* Sienna */
+        }
+
+        .square {
+            background-color: #dc143c; /* Crimson */
+        }
+
+        .triangle {
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-bottom: 40px solid #4169e1; /* RoyalBlue */
+        }
+
+        .equals {
+            margin: 0 10px;
+            font-weight: bold;
+        }
+
+        .answer-input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            width: 80px;
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .message {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .try-again {
+            color: #dc3545;
+        }
+
+        .hint-button {
+            background-color: #ffc107;
+            color: #333;
+            margin-left: 10px;
+        }
+
+        .hint-button:hover {
+            background-color: #e0a800;
+        }
+
+        .hint-text {
+            margin-top: 10px;
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+
+        .game-controls {
+            margin-top: 20px;
+        }
+
+        .difficulty-select {
+            padding: 8px;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        .reset-button {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .reset-button:hover {
+            background-color: #5a6268;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            .equation {
+                flex-direction: row;
+                align-items: center;
+            }
+
+            .equals {
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Shape Math Puzzle</h1>
+
+        <div class="equation">
+            <div class="shape circle"></div>
+            <span>+</span>
+            <div class="shape square"></div>
+            <span class="equals">=</span>
+            <span>15</span>
+        </div>
+
+        <div class="equation">
+            <div class="shape triangle"></div>
+            <span>+</span>
+            <div class="shape triangle"></div>
+            <span class="equals">=</span>
+            <span>4</span>
+        </div>
+
+        <div class="equation">
+            <div class="shape circle"></div>
+            <span>+</span>
+            <div class="shape triangle"></div>
+            <span class="equals">=</span>
+            <span>9</span>
+        </div>
+
+        <h2>Find the Value of the Square:</h2>
+        <input type="number" id="squareAnswer" class="answer-input" placeholder="Enter Value">
+        <button onclick="checkAnswer()">Submit Answer</button>
+        <button class="hint-button" onclick="showHint()">Hint</button>
+
+        <div id="message" class="message"></div>
+        <div id="hint" class="hint-text" style="display: none;"></div>
+
+        <div class="game-controls">
+            <label for="difficulty">Difficulty:</label>
+            <select id="difficulty" class="difficulty-select">
+                <option value="easy">Easy (Original)</option>
+                <option value="medium">Medium (More Equations)</option>
+                <option value="hard">Hard (Even More Equations)</option>
+            </select>
+            <button class="reset-button" onclick="resetGame()">Reset Game</button>
+        </div>
+    </div>
+
+    <script>
+        let squareValue = 8; // Correct answer based on the original image
+        let triangleValue = 2;
+        let circleValue = 7;
+
+        function checkAnswer() {
+            const userAnswer = parseInt(document.getElementById('squareAnswer').value);
+            const messageDiv = document.getElementById('message');
+
+            if (userAnswer === squareValue) {
+                messageDiv.textContent = "Congratulations! You got it right!";
+                messageDiv.className = "message";
+            } else {
+                messageDiv.textContent = "Incorrect. Try again!";
+                messageDiv.className = "message try-again";
+            }
+        }
+
+        function showHint() {
+            const hintDiv = document.getElementById('hint');
+            hintDiv.textContent = "Start by figuring out the value of the triangle.";
+            hintDiv.style.display = "block";
+        }
+
+        function resetGame() {
+            document.getElementById('squareAnswer').value = "";
+            document.getElementById('message').textContent = "";
+            document.getElementById('hint').style.display = "none";
+            const difficulty = document.getElementById('difficulty').value;
+            updateEquations(difficulty);
+        }
+
+        function updateEquations(difficulty) {
+            const container = document.querySelector('.container');
+            let equationsHTML = `
+                <h1>Shape Math Puzzle</h1>
+
+                <div class="equation">
+                    <div class="shape circle"></div>
+                    <span>+</span>
+                    <div class="shape square"></div>
+                    <span class="equals">=</span>
+                    <span>15</span>
+                </div>
+
+                <div class="equation">
+                    <div class="shape triangle"></div>
+                    <span>+</span>
+                    <div class="shape triangle"></div>
+                    <span class="equals">=</span>
+                    <span>4</span>
+                </div>
+
+                <div class="equation">
+                    <div class="shape circle"></div>
+                    <span>+</span>
+                    <div class="shape triangle"></div>
+                    <span class="equals">=</span>
+                    <span>9</span>
+                </div>
+            `;
+
+            if (difficulty === "medium") {
+                equationsHTML += `
+                    <div class="equation">
+                        <div class="shape square"></div>
+                        <span>-</span>
+                        <div class="shape triangle"></div>
+                        <span class="equals">=</span>
+                        <span>${squareValue - triangleValue}</span>
+                    </div>
+                `;
+            } else if (difficulty === "hard") {
+                equationsHTML += `
+                    <div class="equation">
+                        <div class="shape square"></div>
+                        <span>-</span>
+                        <div class="shape triangle"></div>
+                        <span class="equals">=</span>
+                        <span>${squareValue - triangleValue}</span>
+                    </div>
+                    <div class="equation">
+                        <div class="shape circle"></div>
+                        <span>+</span>
+                        <div class="shape square"></div>
+                        <span>+</span>
+                        <div class="shape triangle"></div>
+                        <span class="equals">=</span>
+                        <span>${circleValue + squareValue + triangleValue}</span>
+                    </div>
+                `;
+            }
+
+            equationsHTML += `
+                <h2>Find the Value of the Square:</h2>
+                <input type="number" id="squareAnswer" class="answer-input" placeholder="Enter Value">
+                <button onclick="checkAnswer()">Submit Answer</button>
+                <button class="hint-button" onclick="showHint()">Hint</button>
+
+                <div id="message" class="message"></div>
+                <div id="hint" class="hint-text" style="display: none;"></div>
+
+                <div class="game-controls">
+                    <label for="difficulty">Difficulty:</label>
+                    <select id="difficulty" class="difficulty-select" onchange="resetGame()">
+                        <option value="easy" ${difficulty === "easy" ? "selected" : ""}>Easy (Original)</option>
+                        <option value="medium" ${difficulty === "medium" ? "selected" : ""}>Medium (More Equations)</option>
+                        <option value="hard" ${difficulty === "hard" ? "selected" : ""}>Hard (Even More Equations)</option>
+                    </select>
+                    <button class="reset-button" onclick="resetGame()">Reset Game</button>
+                </div>
+            `;
+
+            container.innerHTML = equationsHTML;
+            // Re-attach event listeners if needed after innerHTML replacement
+        }
+
+        // Initial setup
+        updateEquations("easy");
+    </script>
+</body>
+</html>

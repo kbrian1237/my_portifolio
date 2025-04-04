@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Adventure - Learn HTML the Fun Way!</title>
+    <style>
+        :root {
+            --primary: #4a6fa5;
+            --secondary: #166088;
+            --accent: #4fc3f7;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background-color: var(--success);
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.5s ease;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #e0e0e0;
+            border: none;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .tab:hover:not(.active) {
+            background-color: #d0d0d0;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 20px;
+            background-color: white;
+            border-radius: 0 5px 5px 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            min-height: 300px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .lesson-content h2 {
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+        
+        .lesson-content p {
+            margin-bottom: 15px;
+        }
+        
+        .code-example {
+            background-color: #f5f5f5;
+            border-left: 4px solid var(--accent);
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', Courier, monospace;
+            overflow-x: auto;
+        }
+        
+        .quiz-question {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #ccc;
+        }
+        
+        .quiz-question:last-child {
+            border-bottom: none;
+        }
+        
+        .quiz-options {
+            margin-top: 10px;
+        }
+        
+        .quiz-option {
+            display: block;
+            margin: 8px 0;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .quiz-option:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .quiz-option.correct {
+            background-color: #d4edda;
+        }
+        
+        .quiz-option.incorrect {
+            background-color: #f8d7da;
+        }
+        
+        .playground-area {
+            display: flex;
+            flex-direction: column;
+            height: 400px;
+        }
+        
+        .playground-editor {
+            flex: 1;
+            display: flex;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .playground-code {
+            flex: 1;
+            padding: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            border: none;
+            resize: none;
+            outline: none;
+            background-color: #f5f5f5;
+        }
+        
+        .playground-preview {
+            flex: 1;
+            padding: 10px;
+            border-left: 1px solid #ddd;
+            overflow: auto;
+        }
+        
+        .playground-controls {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: var(--secondary);
+        }
+        
+        button.secondary {
+            background-color: #6c757d;
+        }
+        
+        button.secondary:hover {
+            background-color: #5a6268;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            background-color: var(--accent);
+            color: white;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            margin-left: 5px;
+        }
+        
+        .feedback {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .feedback.success {
+            background-color: #d4edda;
+            color: #155724;
+            display: block;
+        }
+        
+        .feedback.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            display: block;
+        }
+        
+        .achievements {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .achievement {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 10px;
+            width: calc(33.333% - 10px);
+            text-align: center;
+            opacity: 0.5;
+            transition: all 0.3s;
+        }
+        
+        .achievement.unlocked {
+            opacity: 1;
+            background-color: #e8f4fd;
+            border-color: var(--accent);
+        }
+        
+        .achievement-icon {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .playground-editor {
+                flex-direction: column;
+                height: 600px;
+            }
+            
+            .playground-preview {
+                border-left: none;
+                border-top: 1px solid #ddd;
+            }
+            
+            .achievement {
+                width: calc(50% - 10px);
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                border-radius: 5px;
+                margin-bottom: 5px;
+            }
+            
+            .achievement {
+                width: 100%;
+            }
+            
+            header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>HTML Adventure</h1>
+            <p>Learn HTML through interactive lessons and challenges!</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar">0%</div>
+        </div>
+        
+        <div class="game-area">
+            <div class="tabs">
+                <button class="tab active" data-tab="lesson">Lesson</button>
+                <button class="tab" data-tab="quiz">Quiz</button>
+                <button class="tab" data-tab="playground">Playground</button>
+                <button class="tab" data-tab="achievements">Achievements</button>
+            </div>
+            
+            <div class="tab-content active" id="lesson">
+                <div class="lesson-content">
+                    <h2>Welcome to HTML Basics!</h2>
+                    <p>HTML (HyperText Markup Language) is the standard markup language for creating web pages. It describes the structure of a web page and consists of a series of elements that tell the browser how to display content.</p>
+                    
+                    <h3>Basic HTML Structure</h3>
+                    <p>Every HTML document starts with a document type declaration and has a basic structure:</p>
+                    
+                    <div class="code-example">
+                        &lt;!DOCTYPE html&gt;<br>
+                        &lt;html&gt;<br>
+                        &lt;head&gt;<br>
+                        &nbsp;&nbsp;&lt;title&gt;Page Title&lt;/title&gt;<br>
+                        &lt;/head&gt;<br>
+                        &lt;body&gt;<br>
+                        &nbsp;&nbsp;&lt;h1&gt;My First Heading&lt;/h1&gt;<br>
+                        &nbsp;&nbsp;&lt;p&gt;My first paragraph.&lt;/p&gt;<br>
+                        &lt;/body&gt;<br>
+                        &lt;/html&gt;
+                    </div>
+                    
+                    <h3>HTML Elements</h3>
+                    <p>HTML elements are the building blocks of HTML pages. An HTML element is defined by a start tag, some content, and an end tag:</p>
+                    <p class="code-example">&lt;tagname&gt;Content goes here...&lt;/tagname&gt;</p>
+                    
+                    <p>Common HTML elements include:</p>
+                    <ul>
+                        <li><strong>&lt;h1&gt; to &lt;h6&gt;</strong> - Headings</li>
+                        <li><strong>&lt;p&gt;</strong> - Paragraphs</li>
+                        <li><strong>&lt;a&gt;</strong> - Links</li>
+                        <li><strong>&lt;img&gt;</strong> - Images</li>
+                        <li><strong>&lt;div&gt;</strong> - Division or section</li>
+                    </ul>
+                    
+                    <div class="feedback" id="lessonFeedback"></div>
+                    
+                    <div class="nav-buttons">
+                        <button id="prevLesson" class="secondary" disabled>Previous</button>
+                        <button id="nextLesson">Next Lesson</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="quiz">
+                <h2>Test Your Knowledge</h2>
+                <p>Answer these questions to check your understanding of the lesson.</p>
+                
+                <div class="quiz-question">
+                    <p>1. What does HTML stand for?</p>
+                    <div class="quiz-options">
+                        <div class="quiz-option">Hyperlinks and Text Markup Language</div>
+                        <div class="quiz-option correct">HyperText Markup Language</div>
+                        <div class="quiz-option">Home Tool Markup Language</div>
+                        <div class="quiz-option">Hyper Text Making Language</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>2. Which of these is the correct HTML element for the largest heading?</p>
+                    <div class="quiz-options">
+                        <div class="quiz-option">&lt;heading&gt;</div>
+                        <div class="quiz-option">&lt;h6&gt;</div>
+                        <div class="quiz-option correct">&lt;h1&gt;</div>
+                        <div class="quiz-option">&lt;head&gt;</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>3. What is the correct HTML for inserting an image?</p>
+                    <div class="quiz-options">
+                        <div class="quiz-option">&lt;img url="image.png"&gt;</div>
+                        <div class="quiz-option">&lt;image src="image.png"&gt;</div>
+                        <div class="quiz-option correct">&lt;img src="image.png" alt="My Image"&gt;</div>
+                        <div class="quiz-option">&lt;img href="image.png"&gt;</div>
+                    </div>
+                </div>
+                
+                <div class="feedback" id="quizFeedback"></div>
+                
+                <div class="nav-buttons">
+                    <button id="checkQuiz">Check Answers</button>
+                    <button id="resetQuiz" class="secondary">Try Again</button>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="playground">
+                <h2>HTML Playground</h2>
+                <p>Practice what you've learned by writing HTML code and seeing the results immediately!</p>
+                
+                <div class="playground-area">
+                    <div class="playground-editor">
+                        <textarea class="playground-code" id="htmlCode" placeholder="Write your HTML code here...">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;My Page&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Hello, World!&lt;/h1&gt;
+    &lt;p&gt;This is my first HTML page.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</textarea>
+                        <iframe class="playground-preview" id="previewFrame"></iframe>
+                    </div>
+                    <div class="playground-controls">
+                        <button id="runCode">Run Code</button>
+                        <button id="resetCode" class="secondary">Reset</button>
+                        <button id="challengeBtn">Give Me a Challenge</button>
+                    </div>
+                </div>
+                
+                <div class="feedback" id="playgroundFeedback"></div>
+            </div>
+            
+            <div class="tab-content" id="achievements">
+                <h2>Your Achievements</h2>
+                <p>Earn badges by completing lessons and challenges!</p>
+                
+                <div class="achievements">
+                    <div class="achievement" id="firstLesson">
+                        <div class="achievement-icon">📖</div>
+                        <h3>First Lesson</h3>
+                        <p>Complete your first HTML lesson</p>
+                    </div>
+                    
+                    <div class="achievement" id="quizMaster">
+                        <div class="achievement-icon">🧠</div>
+                        <h3>Quiz Master</h3>
+                        <p>Score 100% on a quiz</p>
+                    </div>
+                    
+                    <div class="achievement" id="codeExplorer">
+                        <div class="achievement-icon">🔍</div>
+                        <h3>Code Explorer</h3>
+                        <p>Try the playground for the first time</p>
+                    </div>
+                    
+                    <div class="achievement" id="challengeCompleted">
+                        <div class="achievement-icon">🏆</div>
+                        <h3>Challenge Completed</h3>
+                        <p>Complete a playground challenge</p>
+                    </div>
+                    
+                    <div class="achievement" id="htmlExpert">
+                        <div class="achievement-icon">🌟</div>
+                        <h3>HTML Expert</h3>
+                        <p>Complete all lessons and challenges</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game state
+        const gameState = {
+            currentLesson: 1,
+            totalLessons: 5,
+            quizCompleted: false,
+            playgroundUsed: false,
+            challengeCompleted: false,
+            achievements: {
+                firstLesson: false,
+                quizMaster: false,
+                codeExplorer: false,
+                challengeCompleted: false,
+                htmlExpert: false
+            }
+        };
+
+        // DOM Elements
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const progressBar = document.getElementById('progressBar');
+        const lessonFeedback = document.getElementById('lessonFeedback');
+        const quizFeedback = document.getElementById('quizFeedback');
+        const playgroundFeedback = document.getElementById('playgroundFeedback');
+        const nextLessonBtn = document.getElementById('nextLesson');
+        const prevLessonBtn = document.getElementById('prevLesson');
+        const checkQuizBtn = document.getElementById('checkQuiz');
+        const resetQuizBtn = document.getElementById('resetQuiz');
+        const runCodeBtn = document.getElementById('runCode');
+        const resetCodeBtn = document.getElementById('resetCode');
+        const challengeBtn = document.getElementById('challengeBtn');
+        const htmlCode = document.getElementById('htmlCode');
+        const previewFrame = document.getElementById('previewFrame');
+
+        // Tab switching
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.getAttribute('data-tab');
+                
+                // Hide all tab contents
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Deactivate all tabs
+                tabs.forEach(t => {
+                    t.classList.remove('active');
+                });
+                
+                // Activate selected tab
+                tab.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+                
+                // Special actions for certain tabs
+                if (tabId === 'playground') {
+                    runCode();
+                    if (!gameState.playgroundUsed) {
+                        unlockAchievement('codeExplorer');
+                        gameState.playgroundUsed = true;
+                    }
+                }
+            });
+        });
+
+        // Lesson navigation
+        nextLessonBtn.addEventListener('click', () => {
+            if (gameState.currentLesson < gameState.totalLessons) {
+                gameState.currentLesson++;
+                updateLessonContent();
+                updateProgress();
+                
+                if (gameState.currentLesson === 1) {
+                    unlockAchievement('firstLesson');
+                }
+                
+                if (gameState.currentLesson === gameState.totalLessons) {
+                    nextLessonBtn.textContent = 'Finish Course';
+                    unlockAchievement('htmlExpert');
+                }
+            } else {
+                // Course completed
+                showFeedback(lessonFeedback, 'Congratulations! You have completed the HTML course!', 'success');
+            }
+            
+            prevLessonBtn.disabled = gameState.currentLesson === 1;
+        });
+
+        prevLessonBtn.addEventListener('click', () => {
+            if (gameState.currentLesson > 1) {
+                gameState.currentLesson--;
+                updateLessonContent();
+                updateProgress();
+                nextLessonBtn.textContent = 'Next Lesson';
+            }
+            
+            prevLessonBtn.disabled = gameState.currentLesson === 1;
+        });
+
+        // Quiz functionality
+        checkQuizBtn.addEventListener('click', () => {
+            const correctAnswers = document.querySelectorAll('.quiz-option.correct');
+            let selectedCorrect = 0;
+            
+            correctAnswers.forEach(option => {
+                if (option.classList.contains('selected')) {
+                    selectedCorrect++;
+                }
+            });
+            
+            const score = Math.round((selectedCorrect / correctAnswers.length) * 100);
+            
+            if (score === 100) {
+                showFeedback(quizFeedback, `Perfect! You got ${score}%!`, 'success');
+                gameState.quizCompleted = true;
+                unlockAchievement('quizMaster');
+            } else if (score >= 50) {
+                showFeedback(quizFeedback, `Good job! You got ${score}%. Try again to get 100%!`, 'success');
+            } else {
+                showFeedback(quizFeedback, `You got ${score}%. Review the lesson and try again!`, 'error');
+            }
+        });
+
+        resetQuizBtn.addEventListener('click', () => {
+            document.querySelectorAll('.quiz-option').forEach(option => {
+                option.classList.remove('selected', 'correct', 'incorrect');
+            });
+            quizFeedback.classList.remove('success', 'error');
+            quizFeedback.style.display = 'none';
+        });
+
+        // Quiz option selection
+        document.querySelectorAll('.quiz-option').forEach(option => {
+            option.addEventListener('click', function() {
+                if (!this.classList.contains('selected')) {
+                    // Remove selection from siblings
+                    this.parentNode.querySelectorAll('.quiz-option').forEach(sibling => {
+                        sibling.classList.remove('selected');
+                    });
+                    
+                    // Select this option
+                    this.classList.add('selected');
+                }
+            });
+        });
+
+        // Playground functionality
+        runCodeBtn.addEventListener('click', runCode);
+        
+        resetCodeBtn.addEventListener('click', () => {
+            htmlCode.value = `<!DOCTYPE html>
+<html>
+<head>
+    <title>My Page</title>
+</head>
+<body>
+    <h1>Hello, World!</h1>
+    <p>This is my first HTML page.</p>
+</body>
+</html>`;
+            runCode();
+            showFeedback(playgroundFeedback, 'Code has been reset to the default template.', 'success');
+        });
+
+        challengeBtn.addEventListener('click', () => {
+            const challenges = [
+                {
+                    title: "Create a Link",
+                    description: "Add a link to https://www.example.com with the text 'Visit Example'",
+                    solution: /<a\s+href=["']https:\/\/www\.example\.com["']>Visit Example<\/a>/i
+                },
+                {
+                    title: "Add an Image",
+                    description: "Add an image with source 'image.jpg' and alternative text 'My Image'",
+                    solution: /<img\s+src=["']image\.jpg["']\s+alt=["']My Image["']\s*\/?>/i
+                },
+                {
+                    title: "Create a List",
+                    description: "Create an unordered list with three items: 'First', 'Second', and 'Third'",
+                    solution: /<ul>\s*<li>First<\/li>\s*<li>Second<\/li>\s*<li>Third<\/li>\s*<\/ul>/i
+                }
+            ];
+            
+            const randomChallenge = challenges[Math.floor(Math.random() * challenges.length)];
+            
+            htmlCode.value = `<!DOCTYPE html>
+<html>
+<head>
+    <title>Challenge</title>
+</head>
+<body>
+    <!-- ${randomChallenge.description} -->
+    <h1>Challenge: ${randomChallenge.title}</h1>
+</body>
+</html>`;
+            
+            showFeedback(playgroundFeedback, `Challenge: ${randomChallenge.description}`, 'success');
+            
+            // Check for solution periodically
+            const challengeCheck = setInterval(() => {
+                if (randomChallenge.solution.test(htmlCode.value)) {
+                    clearInterval(challengeCheck);
+                    showFeedback(playgroundFeedback, `Congratulations! You completed the challenge: ${randomChallenge.title}`, 'success');
+                    gameState.challengeCompleted = true;
+                    unlockAchievement('challengeCompleted');
+                }
+            }, 1000);
+        });
+
+        function runCode() {
+            const code = htmlCode.value;
+            const previewDoc = previewFrame.contentDocument || previewFrame.contentWindow.document;
+            
+            previewDoc.open();
+            previewDoc.write(code);
+            previewDoc.close();
+        }
+
+        // Achievement system
+        function unlockAchievement(achievementId) {
+            if (!gameState.achievements[achievementId]) {
+                gameState.achievements[achievementId] = true;
+                document.getElementById(achievementId).classList.add('unlocked');
+                
+                // Show achievement notification
+                const achievement = document.getElementById(achievementId);
+                const achievementName = achievement.querySelector('h3').textContent;
+                showFeedback(document.getElementById(`${achievementId.split('-')[0]}Feedback`), 
+                    `Achievement Unlocked: ${achievementName}!`, 'success');
+            }
+        }
+
+        // Helper functions
+        function updateProgress() {
+            const progress = (gameState.currentLesson / gameState.totalLessons) * 100;
+            progressBar.style.width = `${progress}%`;
+            progressBar.textContent = `${Math.round(progress)}%`;
+        }
+
+        function showFeedback(element, message, type) {
+            element.textContent = message;
+            element.className = 'feedback';
+            element.classList.add(type);
+        }
+
+        function updateLessonContent() {
+            // In a full implementation, this would load different lesson content
+            // For this demo, we'll just update the lesson number
+            document.querySelector('.lesson-content h2').textContent = `Lesson ${gameState.currentLesson}: ${getLessonTitle(gameState.currentLesson)}`;
+            
+            // Update lesson content based on currentLesson
+            // This would be expanded with actual lesson content in a full implementation
+        }
+
+        function getLessonTitle(lessonNumber) {
+            const titles = [
+                "HTML Basics",
+                "HTML Elements",
+                "HTML Attributes",
+                "HTML Links and Images",
+                "HTML Tables and Lists"
+            ];
+            return titles[lessonNumber - 1] || "HTML Lesson";
+        }
+
+        // Initialize the game
+        updateProgress();
+        updateLessonContent();
+        runCode();
+    </script>
+</body>
+</html>

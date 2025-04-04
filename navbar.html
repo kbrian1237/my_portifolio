@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <section class="sidebarSect">
+        <section class="sidebar-container">
+            
+    
+      <div class="sidebar">
+        <div class="sidebar-content">
+          
+          <div class="sidebar-header">
+            <h2 data-i18n="title">My Portfolio</h2>
+            <button class="close-button"><i class="fas fa-times"></i></button>
+          </div>
+          <div class="profile-section">
+            <img class="profile-image" src="myProfImg.jpg" alt="Profile Picture">
+            <h3>Brian Kathurima</h3>
+            <p data-i18n="role">Software Developer</p>
+          </div>
+          <ul class="sidebar-links">
+            <li class="sidebar-group">
+              <h3 data-i18n="about">About Me</h3>
+              <a href="about.html" target="main"><i class="fas fa-user"></i> <span data-i18n="about">About</span></a>
+              <a href="#"><i class="fas fa-briefcase"></i> <span data-i18n="experience">Experience</span></a>
+              <a href="#"><i class="fas fa-graduation-cap"></i> <span data-i18n="education">Education</span></a>
+            </li>
+      
+            <li class="sidebar-group">
+              <h3 data-i18n="skills">Skills</h3>
+              <a href="#"><i class="fas fa-code"></i> <span data-i18n="web-development">Web Development</span></a>
+              <a href="#"><i class="fas fa-database"></i> <span data-i18n="databases">Databases</span></a>
+              <a href="#"><i class="fas fa-mobile-alt"></i> <span data-i18n="mobile-development">Mobile Development</span></a>
+            </li>
+      
+            <li class="sidebar-group">
+              <h3 data-i18n="projects">Projects</h3>
+              <a href="#"><i class="fas fa-project-diagram"></i> <span data-i18n="project1">Project 1</span></a>
+              <a href="#"><i class="fas fa-project-diagram"></i> <span data-i18n="project2">Project 2</span></a>
+              <a href="#"><i class="fas fa-project-diagram"></i> <span data-i18n="project3">Project 3</span></a>
+            </li>
+          </ul>
+    
+        </div>
+        <div class="theme-selector">
+            <label for="theme-select">Choose Theme:</label>
+            <select id="theme-select" class="theme-dropdown">
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+                <option value="ocean">Ocean</option>
+                <option value="forest">Forest</option>
+                <option value="sunset">Sunset</option>
+            </select>
+        </div>
+        <div class="language-selector">
+            <label for="language-select">Language:</label>
+            <select id="language-select" class="language-dropdown">
+                <option value="en">English</option>
+                <option value="es">Español</option>
+                <option value="fr">Français</option>
+                <option value="de">Deutsch</option>
+                <option value="ja">日本語</option>
+            </select>
+        </div>
+      
+    
+        </section>
+    </section>
+    <script src="script.js"></script>
+</body>
+</html>

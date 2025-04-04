@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Adventure - Learn CSS in a Fun Way!</title>
+    <style>
+        /* Base Styles */
+        :root {
+            --primary: #4a6fa5;
+            --secondary: #ff7e5f;
+            --accent: #f9c846;
+            --dark: #2c3e50;
+            --light: #f8f9fa;
+            --success: #4caf50;
+            --error: #f44336;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            animation: slideInDown 0.8s ease-out;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        /* Navigation */
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            background-color: var(--dark);
+            padding: 0.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-tabs {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+            overflow-x: auto;
+            padding: 0.5rem;
+        }
+
+        .nav-tabs li {
+            min-width: fit-content;
+        }
+
+        .nav-tabs button {
+            background: transparent;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-tabs button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-tabs button.active {
+            background-color: var(--accent);
+            color: var(--dark);
+            font-weight: bold;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Lesson Section */
+        .lesson-section {
+            display: none;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .lesson-section.active {
+            display: block;
+        }
+
+        .lesson-title {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .lesson-content {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        .lesson-content p {
+            margin-bottom: 1rem;
+        }
+
+        .lesson-content code {
+            background-color: #f0f0f0;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            color: #d63384;
+        }
+
+        /* Interactive Playground */
+        .playground {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        @media (min-width: 768px) {
+            .playground {
+                flex-direction: row;
+            }
+        }
+
+        .code-editor, .preview {
+            flex: 1;
+            min-height: 300px;
+        }
+
+        .code-editor {
+            background-color: #282c34;
+            border-radius: 8px;
+            padding: 1rem;
+            color: white;
+            position: relative;
+        }
+
+        .code-editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #3e4451;
+        }
+
+        .code-editor-title {
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .reset-btn {
+            background-color: var(--error);
+            color: white;
+            border: none;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background-color 0.3s;
+        }
+
+        .reset-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        textarea.code-input {
+            width: 100%;
+            height: calc(100% - 40px);
+            background-color: #1e1e1e;
+            color: #abb2bf;
+            border: none;
+            border-radius: 4px;
+            padding: 1rem;
+            font-family: 'Courier New', Courier, monospace;
+            resize: none;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .preview {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .preview-content {
+            width: 100%;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+
+        /* Exercise Section */
+        .exercise {
+            background-color: #f5f7fa;
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin: 2rem 0;
+        }
+
+        .exercise-title {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .exercise-title i {
+            color: var(--accent);
+        }
+
+        .exercise-instruction {
+            margin-bottom: 1rem;
+        }
+
+        .check-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            margin-top: 1rem;
+        }
+
+        .check-btn:hover {
+            background-color: #3a5a8a;
+        }
+
+        .feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .feedback.success {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--success);
+            border: 1px solid var(--success);
+            display: block;
+        }
+
+        .feedback.error {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: var(--error);
+            border: 1px solid var(--error);
+            display: block;
+        }
+
+        /* Progress Section */
+        .progress-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .progress-title {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            height: 20px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            font-weight: bold;
+            color: var(--dark);
+        }
+
+        /* Achievement Badge */
+        .achievement-badge {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--accent);
+            color: var(--dark);
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transform: translateX(150%);
+            transition: transform 0.5s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .achievement-badge.show {
+            transform: translateX(0);
+        }
+
+        .badge-icon {
+            font-size: 1.5rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .bounce {
+            animation: bounce 1s;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .playground {
+                flex-direction: column;
+            }
+
+            .code-editor, .preview {
+                width: 100%;
+            }
+        }
+
+        /* Special Elements for Lessons */
+        .demo-box {
+            width: 100px;
+            height: 100px;
+            background-color: var(--secondary);
+            margin: 1rem auto;
+            transition: all 0.3s ease;
+        }
+
+        .demo-text {
+            font-size: 1rem;
+            color: var(--dark);
+            transition: all 0.3s ease;
+        }
+
+        .color-palette {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .color-option {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+
+        .flex-container {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+
+        .flex-item {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            border-radius: 4px;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .grid-container {
+            display: grid;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .grid-item {
+            background-color: var(--secondary);
+            color: white;
+            padding: 1rem;
+            border-radius: 4px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CSS Adventure</h1>
+        <p>Learn CSS in a fun, interactive way!</p>
+    </header>
+
+    <div class="nav-container">
+        <ul class="nav-tabs">
+            <li><button class="nav-btn active" data-target="intro">Introduction</button></li>
+            <li><button class="nav-btn" data-target="selectors">Selectors</button></li>
+            <li><button class="nav-btn" data-target="box-model">Box Model</button></li>
+            <li><button class="nav-btn" data-target="colors">Colors</button></li>
+            <li><button class="nav-btn" data-target="typography">Typography</button></li>
+            <li><button class="nav-btn" data-target="layout">Layout</button></li>
+            <li><button class="nav-btn" data-target="flexbox">Flexbox</button></li>
+            <li><button class="nav-btn" data-target="grid">Grid</button></li>
+            <li><button class="nav-btn" data-target="transitions">Transitions</button></li>
+            <li><button class="nav-btn" data-target="animations">Animations</button></li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <!-- Introduction Section -->
+        <section id="intro" class="lesson-section active">
+            <h2 class="lesson-title">Introduction to CSS</h2>
+            <div class="lesson-content">
+                <p>Welcome to <strong>CSS Adventure</strong>! In this game, you'll learn how to style web pages using CSS (Cascading Style Sheets).</p>
+                <p>CSS is what makes websites look beautiful and engaging. It controls colors, layouts, fonts, animations, and much more!</p>
+                <p>In each lesson, you'll:</p>
+                <ul>
+                    <li>Learn key CSS concepts</li>
+                    <li>See live examples</li>
+                    <li>Practice with interactive exercises</li>
+                    <li>Earn achievements as you progress</li>
+                </ul>
+                <p>Ready to begin your CSS adventure? Click on the next lesson to get started!</p>
+            </div>
+
+            <div class="exercise">
+                <h3 class="exercise-title"><i>✓</i> Quick Quiz</h3>
+                <p class="exercise-instruction">What does CSS stand for?</p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="css-quiz" value="A"> Computer Style Sheets</label><br>
+                    <label><input type="radio" name="css-quiz" value="B"> Creative Style System</label><br>
+                    <label><input type="radio" name="css-quiz" value="C"> Cascading Style Sheets</label><br>
+                    <label><input type="radio" name="css-quiz" value="D"> Colorful Style Syntax</label>
+                </div>
+                <button class="check-btn" onclick="checkQuiz('css-quiz', 'C')">Check Answer</button>
+                <div class="feedback"></div>
+            </div>
+        </section>
+
+        <!-- Selectors Section -->
+        <section id="selectors" class="lesson-section">
+            <h2 class="lesson-title">CSS Selectors</h2>
+            <div class="lesson-content">
+                <p>CSS selectors are patterns used to select the HTML elements you want to style.</p>
+                <p>Here are some common selectors:</p>
+                <ul>
+                    <li><code>element</code> - selects all elements of that type (e.g., <code>p</code> selects all paragraphs)</li>
+                    <li><code>.class</code> - selects all elements with that class (e.g., <code>.header</code>)</li>
+                    <li><code>#id</code> - selects the element with that ID (e.g., <code>#main</code>)</li>
+                    <li><code>selector1, selector2</code> - selects all elements that match either selector</li>
+                </ul>
+                
+                <div class="playground">
+                    <div class="code-editor">
+                        <div class="code-editor-header">
+                            <span class="code-editor-title">CSS Editor</span>
+                            <button class="reset-btn" onclick="resetCode('selectors-code')">Reset</button>
+                        </div>
+                        <textarea class="code-input" id="selectors-code">/* Try changing the color of all paragraphs */
+p {
+    color: blue;
+}
+
+/* Make elements with class="special" stand out */
+.special {
+    font-weight: bold;
+}
+
+/* Style the element with id="unique" */
+#unique {
+    border: 2px solid red;
+}</textarea>
+                    </div>
+                    <div class="preview">
+                        <div class="preview-content" id="selectors-preview">
+                            <p>This is a regular paragraph.</p>
+                            <p class="special">This paragraph has a special class.</p>
+                            <div class="special">This div is also special.</div>
+                            <p id="unique">This paragraph has a unique ID.</p>
+                            <p>Another regular paragraph.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exercise">
+                <h3 class="exercise-title"><i>✓</i> Selector Challenge</h3>
+                <p class="exercise-instruction">Write CSS to make all elements with class "highlight" have a yellow background and all h2 elements green.</p>
+                <div class="playground">
+                    <div class="code-editor">
+    <div class="code-editor-header">
+        <span class="code-editor-title">CSS Editor</span>
+        <button class="reset-btn" onclick="resetCode('selector-exercise')">Reset</button>
+    </div>
+    <textarea class="code-input" id="selector-exercise">/* Write your CSS here */
+.highlight {
+    /* Your code for highlight class */
+}
+
+h2 {
+    /* Your code for h2 elements */
+}</textarea>
+</div>
+<div class="preview">
+    <div class="preview-content" id="selector-exercise-preview">
+        <h2>This is a heading</h2>
+        <p class="highlight">This should be highlighted</p>
+        <div>Regular content</div>
+        <h2>Another heading</h2>
+        <span class="highlight">This should also be highlighted</span>
+    </div>
+</div>
+<button class="check-btn" onclick="checkSelectorExercise()">Check Solution</button>
+<div class="feedback"></div>
+</div>
+</section>
+
+<!-- Box Model Section -->
+<section id="box-model" class="lesson-section">
+    <h2 class="lesson-title">The Box Model</h2>
+    <div class="lesson-content">
+        <p>Every element in CSS is a rectangular box with these properties:</p>
+        <ul>
+            <li><strong>Content</strong> - The actual content (text, image, etc.)</li>
+            <li><strong>Padding</strong> - Space between content and border</li>
+            <li><strong>Border</strong> - A line around the padding</li>
+            <li><strong>Margin</strong> - Space outside the border</li>
+        </ul>
+        
+        <div class="demo-box" id="box-model-demo"></div>
+        
+        <div class="playground">
+            <div class="code-editor">
+                <div class="code-editor-header">
+                    <span class="code-editor-title">CSS Editor</span>
+                    <button class="reset-btn" onclick="resetCode('box-model-code')">Reset</button>
+                </div>
+                <textarea class="code-input" id="box-model-code">#box-model-demo {
+    width: 200px;
+    height: 200px;
+    background-color: var(--secondary);
+    /* Try adding padding, border, and margin */
+    padding: 20px;
+    border: 5px solid var(--primary);
+    margin: 30px;
+}</textarea>
+            </div>
+            <div class="preview">
+                <div class="preview-content">
+                    <div id="box-model-visualization">
+                        <div class="margin">
+                            Margin
+                            <div class="border">
+                                Border
+                                <div class="padding">
+                                    Padding
+                                    <div class="content">
+                                        Content
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="exercise">
+        <h3 class="exercise-title"><i>✓</i> Box Model Challenge</h3>
+        <p class="exercise-instruction">Create a box with 40px padding, 10px solid border, and 20px margin.</p>
+        <button class="check-btn" onclick="checkBoxModelExercise()">Check Solution</button>
+        <div class="feedback"></div>
+    </div>
+</section>
+
+<!-- Continue with other sections... -->
+
+<!-- Progress Section -->
+<div class="progress-container">
+    <h3 class="progress-title">Your Progress</h3>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+    </div>
+    <p class="progress-text"><span id="progress-percent">0</span>% Complete</p>
+</div>
+
+<!-- Achievement Badge -->
+<div class="achievement-badge" id="achievement-badge">
+    <span class="badge-icon">🏆</span>
+    <span class="badge-text">New Achievement Unlocked!</span>
+</div>
+
+<script>
+    // Navigation functionality
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Remove active class from all buttons and sections
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.lesson-section').forEach(s => s.classList.remove('active'));
+            
+            // Add active class to clicked button
+            this.classList.add('active');
+            
+            // Show corresponding section
+            const target = this.getAttribute('data-target');
+            document.getElementById(target).classList.add('active');
+            
+            // Update progress
+            updateProgress();
+        });
+    });
+
+    // Code editor functionality
+    function setupCodeEditor(editorId, previewId) {
+        const editor = document.getElementById(editorId);
+        const preview = document.getElementById(previewId);
+        
+        editor.addEventListener('input', function() {
+            try {
+                const style = document.createElement('style');
+                style.textContent = editor.value;
+                
+                // Remove old style
+                const oldStyle = preview.querySelector('style');
+                if (oldStyle) oldStyle.remove();
+                
+                // Add new style
+                preview.appendChild(style);
+            } catch (e) {
+                console.error(e);
+            }
+        });
+        
+        // Trigger initial update
+        editor.dispatchEvent(new Event('input'));
+    }
+
+    // Reset code to default
+    function resetCode(editorId) {
+        const editor = document.getElementById(editorId);
+        const defaultCode = editor.dataset.default || '';
+        editor.value = defaultCode;
+        editor.dispatchEvent(new Event('input'));
+    }
+
+    // Quiz checking
+    function checkQuiz(name, correctAnswer) {
+        const selected = document.querySelector(`input[name="${name}"]:checked`);
+        const feedback = document.querySelector(`.exercise .feedback`);
+        
+        if (!selected) {
+            feedback.textContent = 'Please select an answer!';
+            feedback.className = 'feedback error';
+            return;
+        }
+        
+        if (selected.value === correctAnswer) {
+            feedback.textContent = 'Correct! Well done!';
+            feedback.className = 'feedback success';
+            unlockAchievement('Quiz Master');
+        } else {
+            feedback.textContent = 'Not quite right. Try again!';
+            feedback.className = 'feedback error';
+        }
+    }
+
+    // Selector exercise check
+    function checkSelectorExercise() {
+        const code = document.getElementById('selector-exercise').value;
+        const feedback = document.querySelector('#selectors .feedback');
+        
+        try {
+            const style = document.createElement('style');
+            style.textContent = code;
+            document.head.appendChild(style);
+            
+            // Check if highlights are yellow
+            const highlights = document.querySelectorAll('#selector-exercise-preview .highlight');
+            const allHighlighted = Array.from(highlights).every(el => 
+                window.getComputedStyle(el).backgroundColor === 'rgb(255, 255, 0)');
+            
+            // Check if h2s are green
+            const h2s = document.querySelectorAll('#selector-exercise-preview h2');
+            const allH2Green = Array.from(h2s).every(el => 
+                window.getComputedStyle(el).color === 'rgb(0, 128, 0)');
+            
+            document.head.removeChild(style);
+            
+            if (allHighlighted && allH2Green) {
+                feedback.textContent = 'Perfect! You got it right!';
+                feedback.className = 'feedback success';
+                unlockAchievement('Selector Pro');
+            } else {
+                feedback.textContent = 'Almost there! Check your colors again.';
+                feedback.className = 'feedback error';
+            }
+        } catch (e) {
+            feedback.textContent = 'There\'s a syntax error in your CSS.';
+            feedback.className = 'feedback error';
+        }
+    }
+
+    // Box model exercise check
+    function checkBoxModelExercise() {
+        const code = document.getElementById('box-model-code').value;
+        const feedback = document.querySelector('#box-model .feedback');
+        
+        try {
+            const style = document.createElement('style');
+            style.textContent = code;
+            document.head.appendChild(style);
+            
+            const demo = document.getElementById('box-model-demo');
+            const computed = window.getComputedStyle(demo);
+            
+            const paddingCorrect = computed.padding === '40px';
+            const borderCorrect = computed.borderWidth === '10px' && computed.borderStyle === 'solid';
+            const marginCorrect = computed.margin === '20px';
+            
+            document.head.removeChild(style);
+            
+            if (paddingCorrect && borderCorrect && marginCorrect) {
+                feedback.textContent = 'Excellent! You understand the box model!';
+                feedback.className = 'feedback success';
+                unlockAchievement('Box Model Expert');
+            } else {
+                feedback.textContent = 'Not quite. Check your padding, border, and margin values.';
+                feedback.className = 'feedback error';
+            }
+        } catch (e) {
+            feedback.textContent = 'There\'s a syntax error in your CSS.';
+            feedback.className = 'feedback error';
+        }
+    }
+
+    // Achievement system
+    function unlockAchievement(title) {
+        const badge = document.getElementById('achievement-badge');
+        const badgeText = badge.querySelector('.badge-text');
+        
+        badgeText.textContent = `Achievement Unlocked: ${title}!`;
+        badge.classList.add('show');
+        
+        setTimeout(() => {
+            badge.classList.remove('show');
+        }, 3000);
+    }
+
+    // Progress tracking
+    function updateProgress() {
+        const sections = document.querySelectorAll('.lesson-section');
+        const completed = Array.from(sections).filter(section => {
+            return section.classList.contains('active') || 
+                   section.querySelector('.feedback.success');
+        }).length;
+        
+        const percent = Math.round((completed / sections.length) * 100);
+        document.getElementById('progress-fill').style.width = `${percent}%`;
+        document.getElementById('progress-percent').textContent = percent;
+        
+        if (percent === 100) {
+            unlockAchievement('CSS Master');
+        }
+    }
+
+    // Initialize code editors
+    document.addEventListener('DOMContentLoaded', function() {
+        setupCodeEditor('selectors-code', 'selectors-preview');
+        setupCodeEditor('box-model-code', 'box-model-demo');
+        setupCodeEditor('selector-exercise', 'selector-exercise-preview');
+        
+        // Set default codes
+        document.getElementById('selectors-code').dataset.default = 
+            document.getElementById('selectors-code').value;
+        document.getElementById('box-model-code').dataset.default = 
+            document.getElementById('box-model-code').value;
+        document.getElementById('selector-exercise').dataset.default = 
+            document.getElementById('selector-exercise').value;
+    });
+</script>
+</body>
+</html>

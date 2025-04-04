@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Quest - Learn JS Playfully</title>
+    <style>
+        /* Base Styles */
+        :root {
+            --primary: #3498db;
+            --secondary: #e74c3c;
+            --accent: #f1c40f;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --success: #2ecc71;
+            --error: #e74c3c;
+            --code-bg: #282c34;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            animation: slideInDown 0.8s ease-out;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        /* Navigation */
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            background-color: var(--dark);
+            padding: 0.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-tabs {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding: 0.5rem;
+            max-width: 100%;
+        }
+
+        .nav-tabs li {
+            min-width: fit-content;
+        }
+
+        .nav-tabs button {
+            background: transparent;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .nav-tabs button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-tabs button.active {
+            background-color: var(--accent);
+            color: var(--dark);
+            font-weight: bold;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Lesson Section */
+        .lesson-section {
+            display: none;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .lesson-section.active {
+            display: block;
+        }
+
+        .lesson-title {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .lesson-content {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        .lesson-content p {
+            margin-bottom: 1rem;
+        }
+
+        .lesson-content code {
+            background-color: #f0f0f0;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            color: #d63384;
+        }
+
+        /* Interactive Playground */
+        .playground {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        @media (min-width: 768px) {
+            .playground {
+                flex-direction: row;
+            }
+        }
+
+        .code-editor, .output-panel {
+            flex: 1;
+            min-height: 300px;
+        }
+
+        .code-editor {
+            background-color: var(--code-bg);
+            border-radius: 8px;
+            padding: 1rem;
+            color: white;
+            position: relative;
+        }
+
+        .code-editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #3e4451;
+        }
+
+        .code-editor-title {
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .run-btn, .reset-btn {
+            border: none;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+            margin-left: 0.5rem;
+        }
+
+        .run-btn {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .run-btn:hover {
+            background-color: #27ae60;
+        }
+
+        .reset-btn {
+            background-color: var(--error);
+            color: white;
+        }
+
+        .reset-btn:hover {
+            background-color: #c0392b;
+        }
+
+        textarea.code-input {
+            width: 100%;
+            height: calc(100% - 40px);
+            background-color: #1e1e1e;
+            color: #abb2bf;
+            border: none;
+            border-radius: 4px;
+            padding: 1rem;
+            font-family: 'Courier New', Courier, monospace;
+            resize: none;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .output-panel {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e0e0e0;
+            overflow-y: auto;
+        }
+
+        .console-output {
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre-wrap;
+            min-height: 100%;
+        }
+
+        /* Exercise Section */
+        .exercise {
+            background-color: #f5f7fa;
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin: 2rem 0;
+        }
+
+        .exercise-title {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .exercise-title i {
+            color: var(--accent);
+        }
+
+        .exercise-instruction {
+            margin-bottom: 1rem;
+        }
+
+        .check-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            margin-top: 1rem;
+        }
+
+        .check-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .feedback.success {
+            background-color: rgba(46, 204, 113, 0.1);
+            color: var(--success);
+            border: 1px solid var(--success);
+            display: block;
+        }
+
+        .feedback.error {
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--error);
+            border: 1px solid var(--error);
+            display: block;
+        }
+
+        /* Progress Section */
+        .progress-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .progress-title {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            height: 20px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            font-weight: bold;
+            color: var(--dark);
+        }
+
+        /* Achievement Badge */
+        .achievement-badge {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--accent);
+            color: var(--dark);
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transform: translateX(150%);
+            transition: transform 0.5s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .achievement-badge.show {
+            transform: translateX(0);
+        }
+
+        .badge-icon {
+            font-size: 1.5rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .bounce {
+            animation: bounce 1s;
+        }
+
+        /* Game Elements */
+        .game-character {
+            width: 100px;
+            height: 100px;
+            background-color: var(--secondary);
+            border-radius: 50%;
+            margin: 1rem auto;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .game-character::before {
+            content: "😊";
+            font-size: 40px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .array-visualization {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .array-item {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            min-width: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .function-visualizer {
+            background-color: #f8f9fa;
+            border: 1px dashed var(--primary);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .playground {
+                flex-direction: column;
+            }
+
+            .code-editor, .output-panel {
+                width: 100%;
+            }
+
+            .nav-tabs {
+                gap: 0.3rem;
+            }
+
+            .nav-tabs button {
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>JavaScript Quest</h1>
+        <p>Embark on an adventure to master JavaScript!</p>
+    </header>
+
+    <div class="nav-container">
+        <ul class="nav-tabs">
+            <li><button class="nav-btn active" data-target="intro">Introduction</button></li>
+            <li><button class="nav-btn" data-target="variables">Variables</button></li>
+            <li><button class="nav-btn" data-target="functions">Functions</button></li>
+            <li><button class="nav-btn" data-target="arrays">Arrays</button></li>
+            <li><button class="nav-btn" data-target="objects">Objects</button></li>
+            <li><button class="nav-btn" data-target="dom">DOM</button></li>
+            <li><button class="nav-btn" data-target="events">Events</button></li>
+            <li><button class="nav-btn" data-target="loops">Loops</button></li>
+            <li><button class="nav-btn" data-target="conditionals">Conditionals</button></li>
+            <li><button class="nav-btn" data-target="final">Final Challenge</button></li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <!-- Introduction Section -->
+        <section id="intro" class="lesson-section active">
+            <h2 class="lesson-title">Welcome to JavaScript Quest!</h2>
+            <div class="lesson-content">
+                <p>Get ready to embark on an exciting journey to learn JavaScript, the language that powers the web!</p>
+                <p>In this interactive game, you'll:</p>
+                <ul>
+                    <li>Learn JavaScript fundamentals through hands-on coding</li>
+                    <li>Solve puzzles and complete challenges</li>
+                    <li>See your code come to life instantly</li>
+                    <li>Earn achievements as you progress</li>
+                </ul>
+                <p>JavaScript is used by over 97% of websites to create interactive experiences. By the end of this quest, you'll be able to:</p>
+                <ul>
+                    <li>Manipulate web page content</li>
+                    <li>Handle user interactions</li>
+                    <li>Store and process data</li>
+                    <li>Create animations and effects</li>
+                </ul>
+                <p>Ready to begin? Click on the next lesson to start your adventure!</p>
+            </div>
+
+            <div class="exercise">
+                <h3 class="exercise-title"><i>✓</i> Quick Quiz</h3>
+                <p class="exercise-instruction">What can JavaScript do that HTML and CSS cannot?</p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="js-quiz" value="A"> Style web pages</label><br>
+                    <label><input type="radio" name="js-quiz" value="B"> Structure content</label><br>
+                    <label><input type="radio" name="js-quiz" value="C"> Create interactive functionality</label><br>
+                    <label><input type="radio" name="js-quiz" value="D"> Display images</label>
+                </div>
+                <button class="check-btn" onclick="checkQuiz('js-quiz', 'C')">Check Answer</button>
+                <div class="feedback"></div>
+            </div>
+        </section>
+
+        <!-- Variables Section -->
+        <section id="variables" class="lesson-section">
+            <h2 class="lesson-title">Variables & Data Types</h2>
+            <div class="lesson-content">
+                <p>Variables are containers for storing data values. In JavaScript, you can declare variables using:</p>
+                <ul>
+                    <li><code>let</code> - for values that can change</li>
+                    <li><code>const</code> - for constant values that cannot change</li>
+                    <li><code>var</code> - older way (avoid in modern code)</li>
+                </ul>
+                
+                <p>JavaScript has several data types:</p>
+                <ul>
+                    <li><strong>String</strong> - text (e.g., <code>"Hello"</code>)</li>
+                    <li><strong>Number</strong> - numeric values (e.g., <code>42</code>)</li>
+                    <li><strong>Boolean</strong> - true/false</li>
+                    <li><strong>Array</strong> - ordered lists</li>
+                    <li><strong>Object</strong> - key-value pairs</li>
+                </ul>
+                
+                <div class="playground">
+                    <div class="code-editor">
+                        <div class="code-editor-header">
+                            <span class="code-editor-title">JavaScript Editor</span>
+                            <button class="run-btn" onclick="runCode('variables-code', 'variables-output')">Run</button>
+                            <button class="reset-btn" onclick="resetCode('variables-code')">Reset</button>
+                        </div>
+                        <textarea class="code-input" id="variables-code">// Try declaring some variables
+let name = "Adventurer";
+const age = 25;
+let isHero = true;
+
+// Log them to the console
+console.log("Name:", name);
+console.log("Age:", age);
+console.log("Is Hero:", isHero);
+
+// Try changing the name
+name = "JavaScript Master";
+console.log("New Name:", name);
+
+// What happens if you try to change age?
+// age = 26; // Uncomment this to see what happens</textarea>
+                    </div>
+                    <div class="output-panel">
+                        <div class="console-output" id="variables-output"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exercise">
+                <h3 class="exercise-title"><i>✓</i> Variable Challenge</h3>
+                <p class="exercise-instruction">Create a <code>const</code> variable called <code>quest</code> with the value "Learn JavaScript" and a <code>let</code> variable called <code>progress</code> with the value 0. Then increment progress by 10.</p>
+                <div class="playground">
+                    <div class="code-editor">
+                        <div class="code-editor-header">
+                            <span class="code-editor-title">JavaScript Editor</span>
+                            <button class="run-btn" onclick="runCode('variables-exercise', 'variables-exercise-output')">Run</button>
+                            <button class="reset-btn" onclick="resetCode('variables-exercise')">Reset</button>
+                        </div>
+                        <textarea class="code-input" id="variables-exercise">// Write your solution here</textarea>
+                    </div>
+                    <div class="output-panel">
+                        <div class="console-output" id="variables-exercise-output"></div>
+                    </div>
+                </div>
+                <button class="check-btn" onclick="checkVariablesExercise()">Check Solution</button>
+                <div class="feedback"></div>
+            </div>
+        </section>
+
+        <!-- Functions Section -->
+        <section id="functions" class="lesson-section">
+            <h2 class="lesson-title">Functions</h2>
+            <div class="lesson-content">
+                <p>Functions are reusable blocks of code that perform specific tasks.</p>
+                
+                <p>You can declare functions in two ways:</p>
+                <pre><code>// Function declaration
+function greet(name) {
+    return "Hello, " + name + "!";
+}
+
+// Function expression
+const greet = function(name) {
+    return "Hello, " + name + "!";
+}</code></pre>
+                
+                <div class="function-visualizer">
+                    <h4>Function Anatomy</h4>
+                    <div class="game-character" id="function-demo"></div>
+                    <p>Try calling these functions in the editor:</p>
+                    <ul>
+                        <li><code>moveUp()</code> - Moves character up</li>
+                        <li><code>moveDown()</code> - Moves character down</li>
+                        <li><code>changeColor(color)</code> - Changes character color</li>
+                    </ul>
+                </div>
+                
+                <div class="playground">
+                    <div class="code-editor">
+                        <div class="code-editor-header">
+                            <span class="code-editor-title">JavaScript Editor</span>
+                            <button class="run-btn" onclick="runCode('functions-code', 'functions-output')">Run</button>
+                            <button class="reset-btn" onclick="resetCode('functions-code')">Reset</button>
+                        </div>
+                        <textarea class="code-input" id="functions-code">// Try calling these functions
+moveUp();
+moveDown();
+changeColor("purple");
+
+// Create your own function
+function jump() {
+    moveUp();
+    setTimeout(moveDown, 500);
+}
+
+// Call your function
+jump();</textarea>
+                    </div>
+                    <div class="output-panel">
+                        <div class="console-output" id="functions-output"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exercise">
+                <h3 class="exercise-title"><i>✓</i> Function Challenge</h3>
+                <p class="exercise-instruction">Create a function called <code>celebrate</code> that makes the character jump twice and change to gold color.</p>
+                <button class="check-btn" onclick="checkFunctionExercise()">Check Solution</button>
+                <div class="feedback"></div>
+            </div>
+        </section>
+                <!-- Arrays Section -->
+        <section id="arrays" class="lesson-section">
+            <h2 class="lesson-title">Arrays</h2>
+            <div class="lesson-content">
+                <p>Arrays are ordered lists of values that can hold multiple items.</p>
+                
+                <p>Key array methods:</p>
+                <ul>
+                    <li><code>push()</code> - Add item to end</li>
+                    <li><code>pop()</code> - Remove from end</li>
+                    <li><code>shift()</code> - Remove from start</li>
+                    <li><code>unshift()</code> - Add to start</li>
+                    <li><code>slice()</code> - Get portion of array</li>
+                    <li><code>splice()</code> - Add/remove items</li>
+                    <li><code>map()</code> - Transform each item</li>
+                    <li><code>filter()</code> - Select certain items</li>
+                </ul>
+                
+                <div class="array-visualization" id="array-demo">
+                    <div class="array-item">A</div>
+                    <div class="array-item">B</div>
+                    <div class="array-item">C</div>
+                </div>
+                
+                <div class="playground">
+                    <div class="code-editor">
+                        <div class="code-editor-header">
+                            <span class="code-editor-title">JavaScript Editor</span>
+                            <button class="run-btn" onclick="runCode('arrays-code', 'arrays-output')">Run</button>
+                            <button class="reset-btn" onclick="resetCode('arrays-code')">Reset</button>
+                        </div>
+                        <textarea class="code-input" id="arrays-code">// Try these array operations
+const letters = ['A', 'B', 'C'];
+
+// Add to end
+letters.push('D');
+console.log("After push:", letters);
+
+// Remove from end
+letters.pop();
+console.log("After pop:", letters);
+
+// Add to start
+letters.unshift('Z');
+console.log("After unshift:", letters);
+
+// Remove from start
+letters.shift();
+console.log("After shift:", letters);
+
+// Try mapping to lowercase
+const lowerLetters = letters.map(letter => letter.toLowerCase());
+console.log("Lowercase:", lowerLetters);
+
+// Visualize the array
+updateArrayVisualization(letters);</textarea>
+                    </div>
+                    <div class="output-panel">
+                        <div class="console-output" id="arrays-output"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exercise">
+                <h3 class="exercise-title"><i>✓</i> Array Challenge</h3>
+                <p class="exercise-instruction">Create an array of numbers from 1 to 5. Then:</p>
+                <ol>
+                    <li>Double each number using <code>map()</code></li>
+                    <li>Filter to keep only numbers greater than 5</li>
+                    <li>Calculate the sum using <code>reduce()</code></li>
+                </ol>
+                <div class="playground">
+                    <div class="code-editor">
+                        <div class="code-editor-header">
+                            <span class="code-editor-title">JavaScript Editor</span>
+                            <button class="run-btn" onclick="runCode('arrays-exercise', 'arrays-exercise-output')">Run</button>
+                            <button class="reset-btn" onclick="resetCode('arrays-exercise')">Reset</button>
+                        </div>
+                        <textarea class="code-input" id="arrays-exercise">// Write your solution here
+const numbers = [1, 2, 3, 4, 5];
+
+// Your code here</textarea>
+                    </div>
+                    <div class="output-panel">
+                        <div class="console-output" id="arrays-exercise-output"></div>
+                    </div>
+                </div>
+                <button class="check-btn" onclick="checkArrayExercise()">Check Solution</button>
+                <div class="feedback"></div>
+            </div>
+        </section>
+
+        <!-- Objects Section -->
+        <section id="objects" class="lesson-section">
+            <h2 class="lesson-title">Objects</h2>
+            <div class="lesson-content">
+                <p>Objects store key-value pairs and represent complex entities.</p>
+                
+                <pre><code>// Object syntax
+const hero = {
+    name: "JavaScript Warrior",
+    level: 5,
+    skills: ["coding", "debugging", "problem solving"],
+    isActive: true,
+    greet: function() {
+        return `Hello, I'm ${this.name}!`;
+    }
+};</code></pre>
+                
+                <div class="playground">
+                    <div class="code-editor">
+                        <div class="code-editor-header">
+                            <span class="code-editor-title">JavaScript Editor</span>
+                            <button class="run-btn" onclick="runCode('objects-code', 'objects-output')">Run</button>
+                            <button class="reset-btn" onclick="resetCode('objects-code')">Reset</button>
+                        </div>
+                        <textarea class="code-input" id="objects-code">// Create a character object
+const character = {
+    name: "Adventurer",
+    health: 100,
+    inventory: ["sword", "potion", "map"],
+    attack: function() {
+        return `${this.name} attacks with ${this.inventory[0]}!`;
+    }
+};
+
+// Access properties
+console.log(character.name);
+console.log(character["health"]);
+
+// Call methods
+console.log(character.attack());
+
+// Add new property
+character.level = 1;
+console.log("After adding level:", character);
+
+// Try modifying the object</textarea>
+                    </div>
+                    <div class="output-panel">
+                        <div class="console-output" id="objects-output"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exercise">
+                <h3 class="exercise-title"><i>✓</i> Object Challenge</h3>
+                <p class="exercise-instruction">Create a <code>book</code> object with:</p>
+                <ul>
+                    <li><code>title</code> (string)</li>
+                    <li><code>author</code> (string)</li>
+                    <li><code>pages</code> (number)</li>
+                    <li><code>isRead</code> (boolean)</li>
+                    <li><code>toggleRead</code> method that flips isRead</li>
+                </ul>
+                <button class="check-btn" onclick="checkObjectExercise()">Check Solution</button>
+                <div class="feedback"></div>
+            </div>
+        </section>
+
+        <!-- DOM Section -->
+        <section id="dom" class="lesson-section">
+            <h2 class="lesson-title">DOM Manipulation</h2>
+            <div class="lesson-content">
+                <p>The Document Object Model (DOM) represents your webpage as objects.</p>
+                
+                <div id="dom-demo" style="margin: 1rem 0; padding: 1rem; border: 1px dashed var(--primary);">
+                    <p id="demo-text">This is a demo element</p>
+                    <button id="demo-button">Click Me</button>
+                </div>
+                
+                <div class="playground">
+                    <div class="code-editor">
+                        <div class="code-editor-header">
+                            <span class="code-editor-title">JavaScript Editor</span>
+                            <button class="run-btn" onclick="runCode('dom-code', 'dom-output')">Run</button>
+                            <button class="reset-btn" onclick="resetCode('dom-code')">Reset</button>
+                        </div>
+                        <textarea class="code-input" id="dom-code">// Select elements
+const demoText = document.getElementById('demo-text');
+const demoButton = document.getElementById('demo-button');
+
+// Change text content
+demoText.textContent = "Text changed with JavaScript!";
+
+// Change styles
+demoText.style.color = "blue";
+demoText.style.fontWeight = "bold";
+
+// Add event listener
+demoButton.addEventListener('click', function() {
+    demoText.textContent = "Button was clicked!";
+    demoText.style.color = "green";
+});
+
+// Create new element
+const newElement = document.createElement('p');
+newElement.textContent = "This is a new element!";
+document.getElementById('dom-demo').appendChild(newElement);</textarea>
+                    </div>
+                    <div class="output-panel">
+                        <div class="console-output" id="dom-output"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exercise">
+                <h3 class="exercise-title"><i>✓</i> DOM Challenge</h3>
+                <p class="exercise-instruction">Create a button that adds a new list item to this unordered list when clicked:</p>
+                <ul id="item-list">
+                    <li>Initial item</li>
+                </ul>
+                <button class="check-btn" onclick="checkDOMExercise()">Check Solution</button>
+                <div class="feedback"></div>
+            </div>
+        </section>
+
+        <!-- Events Section -->
+        <section id="events" class="lesson-section">
+            <h2 class="lesson-title">Event Handling</h2>
+            <div class="lesson-content">
+                <p>Events are actions that happen in the browser (clicks, key presses, etc.).</p>
+                
+                <div id="event-demo" style="margin: 1rem 0; padding: 1rem; border: 1px dashed var(--primary);">
+                    <div id="color-box" style="width: 100px; height: 100px; background-color: var(--secondary); margin: 1rem auto;"></div>
+                    <button id="color-button">Change Color</button>
+                    <p>Try typing in this input: <input type="text" id="key-input"></p>
+                    <p id="key-output"></p>
+                </div>
+                
+                <div class="playground">
+                    <div class="code-editor">
+                        <div class="code-editor-header">
+                            <span class="code-editor-title">JavaScript Editor</span>
+                            <button class="run-btn" onclick="runCode('events-code', 'events-output')">Run</button>
+                            <button class="reset-btn" onclick="resetCode('events-code')">Reset</button>
+                        </div>
+                        <textarea class="code-input" id="events-code">// Get elements
+const colorBox = document.getElementById('color-box');
+const colorButton = document.getElementById('color-button');
+const keyInput = document.getElementById('key-input');
+const keyOutput = document.getElementById('key-output');
+
+// Click event
+colorButton.addEventListener('click', function() {
+    const colors = ['red', 'blue', 'green', 'yellow', 'purple'];
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    colorBox.style.backgroundColor = randomColor;
+});
+
+// Keyboard event
+keyInput.addEventListener('keyup', function(event) {
+    keyOutput.textContent = `You typed: ${event.target.value}`;
+});
+
+// Mouse events
+colorBox.addEventListener('mouseenter', function() {
+    this.style.transform = 'scale(1.1)';
+});
+
+colorBox.addEventListener('mouseleave', function() {
+    this.style.transform = 'scale(1)';
+});</textarea>
+                    </div>
+                    <div class="output-panel">
+                        <div class="console-output" id="events-output"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exercise">
+                <h3 class="exercise-title"><i>✓</i> Events Challenge</h3>
+                <p class="exercise-instruction">Create a counter that:</p>
+                <ol>
+                    <li>Increments when the "+" button is clicked</li>
+                    <li>Decrements when the "-" button is clicked</li>
+                    <li>Resets when the counter is double-clicked</li>
+                </ol>
+                <div id="counter-demo">
+                    <button id="decrement-btn">-</button>
+                    <span id="counter-value">0</span>
+                    <button id="increment-btn">+</button>
+                </div>
+                <button class="check-btn" onclick="checkEventsExercise()">Check Solution</button>
+                <div class="feedback"></div>
+            </div>
+        </section>
+
+        <!-- Final Challenge Section -->
+        <section id="final" class="lesson-section">
+            <h2 class="lesson-title">Final Challenge</h2>
+            <div class="lesson-content">
+                <p>Combine all your JavaScript skills to build a simple game!</p>
+                <p>Create a "Guess the Number" game that:</p>
+                <ol>
+                    <li>Generates a random number between 1-100</li>
+                    <li>Lets the user input guesses</li>
+                    <li>Provides feedback (too high/too low)</li>
+                    <li>Tracks the number of attempts</li>
+                    <li>Shows a victory message when correct</li>
+                    <li>Has a reset button to start over</li>
+                </ol>
+                
+                <div id="game-container" style="margin: 2rem 0; text-align: center;">
+                    <h3>Guess the Number (1-100)</h3>
+                    <input type="number" id="guess-input" min="1" max="100">
+                    <button id="guess-button">Submit Guess</button>
+                    <button id="reset-button" style="display: none;">Play Again</button>
+                    <div id="game-feedback" style="margin: 1rem 0; min-height: 2rem;"></div>
+                    <p>Attempts: <span id="attempts">0</span></p>
+                </div>
+                
+                <div class="playground">
+                    <div class="code-editor">
+                        <div class="code-editor-header">
+                            <span class="code-editor-title">JavaScript Editor</span>
+                            <button class="run-btn" onclick="runCode('final-code', 'final-output')">Run</button>
+                            <button class="reset-btn" onclick="resetCode('final-code')">Reset</button>
+                        </div>
+                        <textarea class="code-input" id="final-code">// Game variables
+let secretNumber;
+let attempts;
+
+// Initialize game
+function initGame() {
+    secretNumber = Math.floor(Math.random() * 100) + 1;
+    attempts = 0;
+    document.getElementById('attempts').textContent = attempts;
+    document.getElementById('game-feedback').textContent = '';
+    document.getElementById('reset-button').style.display = 'none';
+    console.log('Secret number:', secretNumber); // For debugging
+}
+
+// Check guess
+function checkGuess() {
+    const guessInput = document.getElementById('guess-input');
+    const guess = parseInt(guessInput.value);
+    const feedback = document.getElementById('game-feedback');
+    
+    if (isNaN(guess) {
+        feedback.textContent = 'Please enter a valid number!';
+        return;
+    }
+    
+    attempts++;
+    document.getElementById('attempts').textContent = attempts;
+    
+    if (guess === secretNumber) {
+        feedback.textContent = `Congratulations! You guessed it in ${attempts} attempts!`;
+        feedback.style.color = 'green';
+        document.getElementById('reset-button').style.display = 'inline-block';
+    } else if (guess < secretNumber) {
+        feedback.textContent = 'Too low! Try again.';
+        feedback.style.color = 'blue';
+    } else {
+        feedback.textContent = 'Too high! Try again.';
+        feedback.style.color = 'red';
+    }
+    
+    guessInput.value = '';
+    guessInput.focus();
+}
+
+// Event listeners
+document.getElementById('guess-button').addEventListener('click', checkGuess);
+document.getElementById('reset-button').addEventListener('click', initGame);
+document.getElementById('guess-input').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') checkGuess();
+});
+
+// Start the game
+initGame();</textarea>
+                    </div>
+                    <div class="output-panel">
+                        <div class="console-output" id="final-output"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exercise">
+                <h3 class="exercise-title"><i>✓</i> Final Challenge</h3>
+                <p class="exercise-instruction">Enhance the game by:</p>
+                <ol>
+                    <li>Adding a difficulty selector (changes the number range)</li>
+                    <li>Tracking high scores between games</li>
+                    <li>Adding animations when feedback is shown</li>
+                </ol>
+                <button class="check-btn" onclick="checkFinalExercise()">Check Solution</button>
+                <div class="feedback"></div>
+            </div>
+        </section>
+
+        <!-- Continue with other sections... -->
+
+        <!-- Progress Section -->
+        <div class="progress-container">
+            <h3 class="progress-title">Your Progress</h3>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <p class="progress-text"><span id="progress-percent">0</span>% Complete</p>
+        </div>
+
+        <!-- Achievement Badge -->
+        <div class="achievement-badge" id="achievement-badge">
+            <span class="badge-icon">🏆</span>
+            <span class="badge-text">New Achievement Unlocked!</span>
+        </div>
+    </div>
+
+    <script>
+        // Navigation functionality
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons and sections
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.lesson-section').forEach(s => s.classList.remove('active'));
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Show corresponding section
+                const target = this.getAttribute('data-target');
+                document.getElementById(target).classList.add('active');
+                
+                // Update progress
+                updateProgress();
+            });
+        });
+
+        // Run code in editor
+        function runCode(editorId, outputId) {
+            const editor = document.getElementById(editorId);
+            const output = document.getElementById(outputId);
+            
+            try {
+                // Clear previous output
+                output.innerHTML = '';
+                
+                // Override console.log to display in our output panel
+                const originalConsoleLog = console.log;
+                console.log = function(...args) {
+                    originalConsoleLog.apply(console, args);
+                    args.forEach(arg => {
+                        const line = document.createElement('div');
+                        line.textContent = typeof arg === 'object' ? JSON.stringify(arg) : String(arg);
+                        output.appendChild(line);
+                    });
+                };
+                
+                // Execute the code
+                new Function(editor.value)();
+                
+                // Restore original console.log
+                console.log = originalConsoleLog;
+            } catch (error) {
+                output.innerHTML = `<div style="color: var(--error)">Error: ${error.message}</div>`;
+            }
+        }
+
+        // Reset code to default
+        function resetCode(editorId) {
+            const editor = document.getElementById(editorId);
+            const defaultCode = editor.dataset.default || '';
+            editor.value = defaultCode;
+        }
+
+        // Quiz checking
+        function checkQuiz(name, correctAnswer) {
+            const selected = document.querySelector(`input[name="${name}"]:checked`);
+            const feedback = document.querySelector(`#${name}-container .feedback`);
+            
+            if (!selected) {
+                showFeedback('Please select an answer!', 'error');
+                return;
+            }
+            
+            if (selected.value === correctAnswer) {
+                showFeedback('Correct! Well done!', 'success');
+                unlockAchievement('Quiz Master');
+            } else {
+                showFeedback('Not quite right. Try again!', 'error');
+            }
+        }
+
+        // Show feedback message
+        function showFeedback(message, type) {
+            const feedback = document.querySelector('.feedback');
+            feedback.textContent = message;
+            feedback.className = `feedback ${type}`;
+        }
+
+        // Variables exercise check
+        function checkVariablesExercise() {
+            const code = document.getElementById('variables-exercise').value;
+            const output = document.getElementById('variables-exercise-output');
+            
+            try {
+                // Test if the code contains the required elements
+                const hasConstQuest = code.includes('const quest') && code.includes('"Learn JavaScript"');
+                const hasLetProgress = code.includes('let progress = 0');
+                const incrementsProgress = code.includes('progress += 10') || code.includes('progress = progress + 10');
+                
+                if (hasConstQuest && hasLetProgress && incrementsProgress) {
+                    showFeedback('Perfect! You got it right!', 'success');
+                    unlockAchievement('Variable Virtuoso');
+                } else {
+                    let missing = [];
+                    if (!hasConstQuest) missing.push('const quest with correct value');
+                    if (!hasLetProgress) missing.push('let progress initialized to 0');
+                    if (!incrementsProgress) missing.push('progress incremented by 10');
+                    
+                    showFeedback(`Almost there! Missing: ${missing.join(', ')}`, 'error');
+                }
+            } catch (e) {
+                showFeedback('There\'s a syntax error in your code.', 'error');
+            }
+        }
+
+        // Function exercise check
+        function checkFunctionExercise() {
+            const code = document.getElementById('functions-code').value;
+            
+            try {
+                // Test if the function exists and does what it should
+                const functionPattern = /function\s+celebrate\s*\(\)\s*{([^}]*)}/;
+                const match = code.match(functionPattern);
+                
+                if (match) {
+                    const functionBody = match[1];
+                    const hasJumps = (functionBody.includes('jump()') || 
+                                    (functionBody.includes('moveUp()') && functionBody.includes('moveDown()')));
+                    const hasColorChange = functionBody.includes('changeColor("gold")') || 
+                                          functionBody.includes('changeColor(\'gold\')');
+                    
+                    if (hasJumps && hasColorChange) {
+                        showFeedback('Excellent! Your celebrate function works!', 'success');
+                        unlockAchievement('Function Wizard');
+                        
+                        // Execute the celebrate function
+                        if (typeof celebrate === 'function') {
+                            celebrate();
+                        }
+                    } else {
+                        let missing = [];
+                        if (!hasJumps) missing.push('make the character jump');
+                        if (!hasColorChange) missing.push('change color to gold');
+                        
+                        showFeedback(`Close! Your function needs to: ${missing.join(' and ')}`, 'error');
+                    }
+                } else {
+                    showFeedback('Create a function called celebrate that does the specified actions', 'error');
+                }
+            } catch (e) {
+                showFeedback('There\'s a syntax error in your code.', 'error');
+            }
+        }
+
+        // Function visualizer methods
+        function moveUp() {
+            const character = document.getElementById('function-demo');
+            character.style.transform = 'translateY(-20px)';
+            setTimeout(() => {
+                character.style.transform = 'translateY(0)';
+            }, 500);
+        }
+
+        function moveDown() {
+            const character = document.getElementById('function-demo');
+            character.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                character.style.transform = 'translateY(0)';
+            }, 500);
+        }
+
+        function changeColor(color) {
+            const character = document.getElementById('function-demo');
+            character.style.backgroundColor = color;
+        }
+
+        // Achievement system
+        function unlockAchievement(title) {
+            const badge = document.getElementById('achievement-badge');
+            const badgeText = badge.querySelector('.badge-text');
+            
+            badgeText.textContent = `Achievement Unlocked: ${title}!`;
+            badge.classList.add('show');
+            
+            setTimeout(() => {
+                badge.classList.remove('show');
+            }, 3000);
+        }
+// Array visualization
+function updateArrayVisualization(arr) {
+    const container = document.getElementById('array-demo');
+    container.innerHTML = '';
+    
+    arr.forEach(item => {
+        const element = document.createElement('div');
+        element.className = 'array-item';
+        element.textContent = item;
+        container.appendChild(element);
+    });
+}
+
+// Array exercise check
+function checkArrayExercise() {
+    const code = document.getElementById('arrays-exercise').value;
+    
+    try {
+        // Test if the code contains the required operations
+        const hasMap = code.includes('.map(') && code.includes('* 2');
+        const hasFilter = code.includes('.filter(') && code.includes('> 5');
+        const hasReduce = code.includes('.reduce(');
+        
+        if (hasMap && hasFilter && hasReduce) {
+            showFeedback('Perfect! You used all the required array methods!', 'success');
+            unlockAchievement('Array Artisan');
+        } else {
+            let missing = [];
+            if (!hasMap) missing.push('map to double numbers');
+            if (!hasFilter) missing.push('filter to keep > 5');
+            if (!hasReduce) missing.push('reduce to calculate sum');
+            
+            showFeedback(`Almost there! Missing: ${missing.join(', ')}`, 'error');
+        }
+    } catch (e) {
+        showFeedback('There\'s a syntax error in your code.', 'error');
+    }
+}
+
+// Object exercise check
+function checkObjectExercise() {
+    const code = document.getElementById('objects-code').value;
+    
+    try {
+        // Test if the object has all required properties and method
+        const hasTitle = code.includes('title:') && code.includes('string');
+        const hasAuthor = code.includes('author:') && code.includes('string');
+        const hasPages = code.includes('pages:') && (code.includes('number') || /\d+/.test(code));
+        const hasIsRead = code.includes('isRead:') && (code.includes('true') || code.includes('false'));
+        const hasToggleMethod = code.includes('toggleRead') && code.includes('function');
+        
+        if (hasTitle && hasAuthor && hasPages && hasIsRead && hasToggleMethod) {
+            showFeedback('Excellent! Your book object is perfect!', 'success');
+            unlockAchievement('Object Architect');
+        } else {
+            let missing = [];
+            if (!hasTitle) missing.push('title property');
+            if (!hasAuthor) missing.push('author property');
+            if (!hasPages) missing.push('pages property');
+            if (!hasIsRead) missing.push('isRead property');
+            if (!hasToggleMethod) missing.push('toggleRead method');
+            
+            showFeedback(`Your book object needs: ${missing.join(', ')}`, 'error');
+        }
+    } catch (e) {
+        showFeedback('There\'s a syntax error in your code.', 'error');
+    }
+}
+
+// DOM exercise check
+function checkDOMExercise() {
+    const code = document.getElementById('dom-code').value;
+    
+    try {
+        // Test if the code creates new list items
+        const hasCreateElement = code.includes('createElement(') && code.includes('li');
+        const hasAppendChild = code.includes('appendChild(') || code.includes('append(');
+        const hasEventListener = code.includes('addEventListener(') && code.includes('click');
+        
+        if (hasCreateElement && hasAppendChild && hasEventListener) {
+            showFeedback('Great job! You successfully added items to the list!', 'success');
+            unlockAchievement('DOM Master');
+        } else {
+            let missing = [];
+            if (!hasCreateElement) missing.push('create new list items');
+            if (!hasAppendChild) missing.push('add them to the list');
+            if (!hasEventListener) missing.push('handle button clicks');
+            
+            showFeedback(`Your solution needs to: ${missing.join(', ')}`, 'error');
+        }
+    } catch (e) {
+        showFeedback('There\'s a syntax error in your code.', 'error');
+    }
+}
+
+// Events exercise check
+function checkEventsExercise() {
+    const code = document.getElementById('events-code').value;
+    
+    try {
+        // Test if all required event handlers are present
+        const hasIncrement = code.includes('increment-btn') && code.includes('click');
+        const hasDecrement = code.includes('decrement-btn') && code.includes('click');
+        const hasDoubleClick = code.includes('dblclick') || 
+                             (code.includes('click') && code.includes('event.detail') && code.includes('2'));
+        
+        if (hasIncrement && hasDecrement && hasDoubleClick) {
+            showFeedback('Perfect! All event handlers work correctly!', 'success');
+            unlockAchievement('Event Handler');
+        } else {
+            let missing = [];
+            if (!hasIncrement) missing.push('increment on + click');
+            if (!hasDecrement) missing.push('decrement on - click');
+            if (!hasDoubleClick) missing.push('reset on double-click');
+            
+            showFeedback(`Your counter needs: ${missing.join(', ')}`, 'error');
+        }
+    } catch (e) {
+        showFeedback('There\'s a syntax error in your code.', 'error');
+    }
+}
+
+// Final exercise check
+function checkFinalExercise() {
+    const code = document.getElementById('final-code').value;
+    
+    try {
+        // Test for enhancements
+        const hasDifficulty = code.includes('difficulty') || 
+                             (code.includes('range') && (code.includes('select') || code.includes('option')));
+        const hasHighScore = code.includes('highScore') || code.includes('localStorage');
+        const hasAnimation = code.includes('animate') || code.includes('transition') || 
+                            code.includes('keyframes') || code.includes('transform');
+        
+        if (hasDifficulty && hasHighScore && hasAnimation) {
+            showFeedback('Amazing! You created an enhanced game!', 'success');
+            unlockAchievement('Game Developer');
+        } else {
+            let missing = [];
+            if (!hasDifficulty) missing.push('difficulty selector');
+            if (!hasHighScore) missing.push('high score tracking');
+            if (!hasAnimation) missing.push('animations');
+            
+            showFeedback(`Your enhanced game could add: ${missing.join(', ')}`, 'error');
+        }
+    } catch (e) {
+        showFeedback('There\'s a syntax error in your code.', 'error');
+    }
+}
+        // Progress tracking
+        function updateProgress() {
+            const sections = document.querySelectorAll('.lesson-section');
+            const completed = Array.from(sections).filter(section => {
+                return section.classList.contains('active') || 
+                       section.querySelector('.feedback.success');
+            }).length;
+            
+            const percent = Math.round((completed / sections.length) * 100);
+            document.getElementById('progress-fill').style.width = `${percent}%`;
+            document.getElementById('progress-percent').textContent = percent;
+            
+            if (percent === 100) {
+                unlockAchievement('JavaScript Master');
+            }
+        }
+
+        // Initialize code editors with default values
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set default codes
+            document.getElementById('variables-code').dataset.default = 
+                document.getElementById('variables-code').value;
+            document.getElementById('functions-code').dataset.default = 
+                document.getElementById('functions-code').value;
+            document.getElementById('variables-exercise').dataset.default = 
+                document.getElementById('variables-exercise').value;
+            
+            // Initialize any other setup
+            updateProgress();
+        });
+    </script>
+</body>
+</html>

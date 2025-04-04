@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me</title>
+    <style>
+        .about-section {
+            height: 100vh;
+            width: 100%;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            transition: background 0.5s, color 0.5s;
+        }
+        .container-about {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease-in-out;
+        }
+        .container-about:hover {
+            transform: scale(1.02);
+        }
+      .container-about  h2 {
+            text-align: center;
+            animation: fadeIn 1.5s;
+        }
+      .container-about  p {
+            line-height: 1.6;
+            animation: slideIn 1.5s ease-in-out;
+        }
+       .container-about a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+       .container-about a:hover {
+            text-decoration: underline;
+        }
+       .about-section .toggle-btn {
+            display: block;
+            width: 150px;
+            margin: 10px auto;
+            padding: 10px;
+            background: #007BFF;
+            color: white;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+       .about-section .toggle-btn:hover {
+            background: #0056b3;
+        }
+        @keyframes  fadeIn {
+            
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .dark-mode .about-section {
+            background-color: #222;
+            color: #f4f4f4;
+        }
+        .dark-mode .container-about {
+            background-color: #333;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <section class="about-section">
+    <button class="toggle-btn" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+    <div class="container-about">
+        <section class="aboutPage">
+            <h2 data-i18n="about">About Me</h2>
+            <p data-i18n="about-me">
+                Hi, I'm Brian, a highly motivated and results-oriented Computer Science student with a passion for developing innovative and user-friendly software solutions. 
+                I'm currently pursuing my Computer Science diploma at The Meru National Polytechnic. My coursework has provided me with a solid foundation in 
+                <strong>programming languages like Java, Python, C++, VB.Net, HTML, CSS, JavaScript, SQL.</strong> Gaining skills in <strong>Web Development, Mobile Development, Data Science, Artificial Intelligence, and Data Analytics</strong>.
+                I'm also familiar with Bulma, Foundation, Materialize, Bootstrap, and Vue.js.
+                <br><br>
+                Beyond academics, I actively seek opportunities to expand my skillset and contribute to real-world projects. I've worked on a movie website and developed logos for Krian Bytes and Shadi Bin Shadi media.
+                <br><br>
+                In addition to my technical expertise, I have a strong passion for learning and sharing knowledge. I frequently participate in coding competitions, hackathons, and open-source projects to challenge myself and gain hands-on experience. My ability to quickly adapt to new technologies and problem-solving skills allows me to create efficient and scalable solutions.
+                <br><br>
+                I take pride in my ability to collaborate effectively within teams, contributing to both the technical and creative aspects of projects. I also enjoy mentoring and assisting fellow students, sharing insights into coding practices, best design approaches, and industry trends. My interest in Agile methodologies has strengthened my ability to work in structured, goal-oriented environments.
+                <br><br>
+                Apart from coding, I have a keen interest in UI/UX design, ensuring that software is not only functional but also aesthetically pleasing and user-friendly. I believe that technology should empower and simplify the lives of users, and I continuously strive to implement best practices in design and development.
+                <br><br>
+                I'm a quick learner, a collaborative team player, and possess a strong problem-solving aptitude. I'm eager to leverage my skills and enthusiasm to contribute to a challenging and rewarding role in the tech industry.
+                <br><br>
+                Feel free to connect with me on <a href="https://www.linkedin.com/in/brian-kathurima-8404082b4">LinkedIn</a> or <a href="https://github.com/kbrian1237">GitHub</a>. Let's connect and explore the possibilities together!
+            </p>
+        </section>
+    </div>
+    </section>
+    <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+    </script>
+</body>
+</html>
