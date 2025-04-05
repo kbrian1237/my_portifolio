@@ -110,7 +110,7 @@ addEventListener('load', () => {
                 section.innerHTML = `
                 <div class="skill-card" style="background-image: url('graphicsdesign.jpg');">
                     <div style="background-color:rgba(0, 0, 0, 0.45);">
-                  <h1>Graphics Design</h1>
+                
                   <img src="graphicsdesign.jpg" alt="Skill 4 Image">
                   <div class="card-content">
                    <h1>Graphics Design</h1>
@@ -171,11 +171,11 @@ addEventListener('load', () => {
                                 section.innerHTML = `
                                 <div class="skill-card" style="background-image: url('webDev.jpg');">
                                 <div style="background-color:rgba(0, 0, 0, 0.45);">
-                                  <h1>Web Development</h1>
+                                  
                                   <img src="webDev.jpg" alt="Skill 6 Image">
                                   <div class="card-content">
-                                    <h2>Skill 6 Title</h2>
-                                    <p>This is a brief description of the skill. You can add more details here.</p>
+                                    <h1>Web Development</h1>
+                                    <p>i can create websites and wab apps using html, css, javascript and many other languages.</p>
                                   </div>
                                   <br>
                                 </div>
