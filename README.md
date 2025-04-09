@@ -1,6 +1,8 @@
 # Brian Kathurima - Portfolio Website
 
 
+https://kbrian1237.github.io/my_portifolio/
+
 A modern, responsive portfolio website showcasing projects, skills, and achievements of Brian Kathurima, a Computer Science student specializing in software development and AI.
 
 ## Features ✨
